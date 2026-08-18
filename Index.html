@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeeM; Bhavya Makker</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0f0f11;
+    --surface:  #18181c;
+    --border:   #2a2a30;
+    --amber:    #f5a623;
+    --amber-dim:#c47d0e;
+    --white:    #f0f0f0;
+    --muted:    #888899;
+    --text:     #d8d8e0;
+    --mono:     'DM Mono', monospace;
+    --sans:     'Space Grotesk', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(15,15,17,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 1.5rem; font-weight: 700; color: var(--amber);
+    letter-spacing: -0.02em; text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.875rem;
+    font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding-top: 6rem; max-width: 100%;
+    padding-left: 3rem; padding-right: 3rem; position: relative; overflow: hidden;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-tag {
+    font-family: var(--mono); font-size: 0.8rem;
+    color: var(--amber); letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block; width: 2rem; height: 1px; background: var(--amber);
+  }
+  h1.hero-name {
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 700; line-height: 0.95;
+    letter-spacing: -0.04em; color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  h1.hero-name span { color: var(--amber); }
+  .hero-title {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--muted); font-weight: 400; margin-bottom: 2rem;
+    margin-top: 1rem;
+  }
+  .hero-bio {
+    font-size: 1.05rem; color: var(--text); max-width: 600px;
+    line-height: 1.75; margin-bottom: 2.5rem;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--amber); color: #0f0f11;
+    padding: 0.85rem 2rem; border-radius: 4px;
+    font-weight: 600; font-size: 0.875rem;
+    text-decoration: none; letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #ffc04d; transform: translateY(-1px); }
+  .btn-secondary {
+    border: 1px solid var(--border); color: var(--text);
+    padding: 0.85rem 2rem; border-radius: 4px;
+    font-weight: 500; font-size: 0.875rem;
+    text-decoration: none; letter-spacing: 0.03em;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--amber); color: var(--amber); }
+
+  /* Stats strip */
+  .stats-strip {
+    display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
+    padding-top: 2.5rem; border-top: 1px solid var(--border);
+  }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num {
+    font-size: 2rem; font-weight: 700; color: var(--amber);
+    font-family: var(--mono); line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.03em; }
+
+  /* BG decoration */
+  .hero-bg-text {
+    position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+    font-size: 22rem; font-weight: 700; color: rgba(245,166,35,0.04);
+    letter-spacing: -0.05em; pointer-events: none; user-select: none;
+    line-height: 1;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--mono); font-size: 0.75rem;
+    color: var(--amber); letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border); max-width: 3rem;
+  }
+  h2.section-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700; color: var(--white);
+    letter-spacing: -0.03em; margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  .about-text p { color: var(--text); line-height: 1.8; margin-bottom: 1.25rem; }
+  .about-text p strong { color: var(--white); }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.35rem 0.85rem;
+    border-radius: 100px; font-size: 0.8rem; font-family: var(--mono);
+    letter-spacing: 0.03em;
+  }
+  .about-highlights { display: flex; flex-direction: column; gap: 1.25rem; }
+  .highlight-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .highlight-card:hover { border-color: var(--amber); }
+  .highlight-num {
+    font-family: var(--mono); font-size: 1.75rem; font-weight: 500;
+    color: var(--amber); line-height: 1; margin-bottom: 0.25rem;
+  }
+  .highlight-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+
+  /* EXPERIENCE */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 2rem; padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:first-child { border-top: 1px solid var(--border); }
+  .exp-meta { padding-top: 0.2rem; }
+  .exp-date {
+    font-family: var(--mono); font-size: 0.75rem;
+    color: var(--amber); letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .exp-company {
+    font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.25rem;
+  }
+  .exp-location { font-size: 0.8rem; color: var(--muted); }
+  .exp-role {
+    font-size: 1.1rem; font-weight: 600; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .exp-desc { font-size: 0.9rem; color: var(--text); line-height: 1.7; margin-bottom: 1rem; }
+  .exp-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .pill {
+    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.25);
+    color: var(--amber); padding: 0.25rem 0.7rem;
+    border-radius: 4px; font-size: 0.75rem; font-family: var(--mono);
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 2rem; position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--amber), transparent);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .project-card:hover { border-color: var(--amber); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.7rem;
+    color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .project-title {
+    font-size: 1.15rem; font-weight: 600; color: var(--white);
+    margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .project-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.8rem; color: var(--amber); text-decoration: none;
+    font-family: var(--mono); letter-spacing: 0.04em;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.75rem; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem;
+  }
+  .skill-group-title {
+    font-family: var(--mono); font-size: 0.75rem;
+    color: var(--amber); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .skill-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-item {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text); padding: 0.3rem 0.7rem;
+    border-radius: 4px; font-size: 0.8rem;
+  }
+
+  /* CONTACT */
+  #contact { text-align: center; }
+  .contact-email {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600; color: var(--white);
+    text-decoration: none; letter-spacing: -0.02em;
+    transition: color 0.2s;
+    display: inline-block; margin: 2rem 0;
+  }
+  .contact-email:hover { color: var(--amber); }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; }
+  .contact-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.875rem;
+    font-family: var(--mono); letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .contact-links a:hover { color: var(--amber); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    width: 100%; height: 1px; background: var(--border);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .hero-bg-text { display: none; }
+    .stats-strip { gap: 2rem; }
+  }
+
+  /* QUIZ SECTION */
+  #hire-me { text-align: center; }
+  .quiz-wrap {
+    max-width: 560px; margin: 0 auto;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    min-height: 280px;
+  }
+  .quiz-wrap::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .quiz-slide { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 200px; }
+  .quiz-slide.active { display: flex; animation: fadeUp 0.35s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .quiz-progress {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 1.5rem;
+  }
+  .quiz-q {
+    font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 600;
+    color: var(--white); line-height: 1.3; margin-bottom: 0.75rem;
+    max-width: 440px;
+  }
+  .quiz-sub { font-size: 0.875rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+  .quiz-btns { display: flex; gap: 1rem; }
+  .quiz-yes {
+    background: var(--amber); color: #0f0f11;
+    padding: 0.75rem 2rem; border-radius: 6px;
+    font-weight: 700; font-size: 0.9rem;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: var(--sans);
+  }
+  .quiz-yes:hover { background: #ffc04d; transform: translateY(-2px); }
+  .quiz-no {
+    background: transparent; color: var(--muted);
+    padding: 0.75rem 2rem; border-radius: 6px;
+    font-weight: 500; font-size: 0.9rem;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: var(--sans);
+  }
+  .quiz-no:hover { border-color: #ff4d4d; color: #ff4d4d; }
+  .quiz-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+  .quiz-result-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700;
+    color: var(--amber); margin-bottom: 0.75rem; line-height: 1.2;
+  }
+  .quiz-result-text { font-size: 0.95rem; color: var(--text); line-height: 1.7; max-width: 400px; margin-bottom: 1.5rem; }
+  .quiz-restart {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 0.6rem 1.5rem;
+    border-radius: 6px; font-size: 0.8rem;
+    cursor: pointer; font-family: var(--mono);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .quiz-restart:hover { border-color: var(--amber); color: var(--amber); }
+  .progress-bar {
+    width: 100%; height: 3px; background: var(--border);
+    border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--amber);
+    border-radius: 2px; transition: width 0.4s ease;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo" title="Bhavya · Exceptionally Motivated">Bee<span style="margin-left:0.18em">M</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-bg-text">B</div>
+  <div class="hero-inner">
+    <div class="hero-tag">Available for opportunities in Canada</div>
+    <h1 class="hero-name">Bhavya<br><span>Makker</span></h1>
+    <p class="hero-mono" style="font-family:var(--mono);font-size:0.75rem;color:var(--amber);letter-spacing:0.12em;margin-bottom:0.5rem;text-transform:uppercase;">Bhavya &nbsp;·&nbsp; Exceptionally Motivated</p><p class="hero-title">Payments & Fintech Professional &nbsp;·&nbsp; Ex-JPMorgan Chase &nbsp;·&nbsp; Toronto, Canada</p>
+    <p class="hero-bio">
+      Three years at JPMorgan Chase as a trusted Subject Matter Expert in payments and process optimisation.
+      A fintech app designed and built in a team. A payment processing workflow reimagined from the ground up.
+      I bring impeccable communication, structured thinking, and genuine ownership to every role I step into.
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:bhavya.makker7@gmail.com" class="btn-primary">Get in touch</a>
+      <a href="https://www.linkedin.com/in/bhavya-makker-996664170" target="_blank" class="btn-secondary">LinkedIn ↗</a>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-item">
+        <span class="stat-num">63%</span>
+        <span class="stat-label">Process optimisation; cycle time reduced through STP redesign</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Years at JPMorgan Chase as established team SME</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">25%</span>
+        <span class="stat-label">Reporting accuracy improved through structured analysis</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">4×</span>
+        <span class="stat-label">JPMorgan Excellence Award, 2023</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About me</div>
+  <h2 class="section-title">Finance meets technology,<br>strategy meets execution.</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I am a finance and strategy professional who spent three years inside one of the world's largest financial institutions; 
+        <strong>JPMorgan Chase</strong>; driving process optimisation, leading platform implementations, and serving as the 
+        established Subject Matter Expert for complex payment queries and cross-functional escalations. Teams trusted me to 
+        find the root cause, communicate it clearly, and deliver the fix.
+      </p>
+      <p>
+        After relocating to Canada, I completed a <strong>Post-Graduate Diploma in Accounting at York University</strong> 
+        and am currently finishing a <strong>Post-Graduate Diploma in Financial Technology at Seneca College</strong>, 
+        where my capstone project proposes an alternate credit rating model powered by payment behaviour data.
+      </p>
+      <p>
+        I am also a builder. As part of a collaborative team, I designed <strong>Verdant</strong>, a robo-advisor 
+        wealth management app prototyped in Figma, where I led the UX research, information architecture, and interface design. 
+        Working alongside teammates to take an idea from concept to a working prototype reinforced what I already knew: 
+        impeccable communication and genuine collaboration are what separate good teams from great ones.
+      </p>
+      <p style="margin-top:1.25rem;padding:1.25rem;border-left:2px solid var(--amber);background:rgba(245,166,35,0.05);border-radius:0 6px 6px 0;">
+        <em style="color:var(--white);font-size:1rem;line-height:1.7;font-style:italic;">
+          "I don't ask you to trust me. I give you reasons to."
+        </em>
+      </p>
+      <div class="about-tags">
+        <span class="tag">Strategy</span>
+        <span class="tag">Advisory</span>
+        <span class="tag">Fintech</span>
+        <span class="tag">UX Design</span>
+        <span class="tag">Problem Solving</span>
+        <span class="tag">Financial Analysis</span>
+        <span class="tag">Product Thinking</span>
+        <span class="tag">Client Delivery</span>
+      </div>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-card">
+        <div class="highlight-num">63%</div>
+        <div class="highlight-desc">Reduction in payment processing cycle time; from 40 to under 15 minutes; through self-initiated STP workflow redesign at JPMorgan Chase.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-num">25%</div>
+        <div class="highlight-desc">Improvement in settlement accuracy across 150+ monthly transactions through structured root-cause analysis and corrective workflow changes.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-num">2×</div>
+        <div class="highlight-desc">Platform migrations led end-to-end via UAT; LIQ to ACBS and ACBS to LIQ; delivering zero-defect production cutovers on both occasions.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-num">3.7</div>
+        <div class="highlight-desc">GPA at Seneca College FinTech Programme (92.5%); reflecting strong performance across payments, data analytics, AI in finance, and regulatory frameworks.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I have worked.</h2>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">Jan 2026 – Aug 2026</div>
+        <div class="exp-company">Seneca College</div>
+        <div class="exp-location">Toronto, Canada</div>
+      </div>
+      <div>
+        <div class="exp-role">Post-Graduate Diploma; Financial Technology</div>
+        <div class="exp-desc">Studying digital payments, fintech strategy, blockchain, AI in finance, ISO 20022 migration, and regulatory frameworks. Capstone: Alternate Credit Rating via Payments Visibility; a data pipeline and trust score model surfacing non-traditional payment behaviour as credit bureau signals. GPA 3.7 / 92.5%.</div>
+        <div class="exp-pills">
+          <span class="pill">FinTech Strategy</span>
+          <span class="pill">ISO 20022</span>
+          <span class="pill">Data Analytics</span>
+          <span class="pill">AI in Finance</span>
+          <span class="pill">Figma / UX</span>
+        </div>
+      </div>
+    </div>
+
+    
+      <div>
+        <div class="exp-role">Business Development Specialist</div>
+        <div class="exp-desc">Built and managed a B2B client portfolio from scratch in the Canadian market. Led contract negotiations and renewal discussions, managed end-to-end client relationships from discovery through close, and consistently exceeded revenue and retention targets across multiple industries.</div>
+        <div class="exp-pills">
+          <span class="pill">B2B Sales</span>
+          <span class="pill">Client Portfolio Management</span>
+          <span class="pill">Contract Negotiation</span>
+          <span class="pill">CRM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">Jan 2025 – Aug 2025</div>
+        <div class="exp-company">York University</div>
+        <div class="exp-location">Toronto, Canada</div>
+      </div>
+      <div>
+        <div class="exp-role">Post-Graduate Diploma; Accounting</div>
+        <div class="exp-desc">Financial reporting, management accounting, audit and assurance, and Canadian regulatory standards. Built a DCF valuation model with scenario and sensitivity analysis as part of a business strategy capstone. GPA 85.5%.</div>
+        <div class="exp-pills">
+          <span class="pill">Financial Reporting</span>
+          <span class="pill">DCF Valuation</span>
+          <span class="pill">Audit</span>
+          <span class="pill">Management Accounting</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">Aug 2021 – Nov 2024</div>
+        <div class="exp-company">JPMorgan Chase & Co.</div>
+        <div class="exp-location">Mumbai, India</div>
+      </div>
+      <div>
+        <div class="exp-role">Analyst; Payments & Investment Banking Operations</div>
+        <div class="exp-desc">Served as the established Subject Matter Expert for payment processing, cross-functional escalations, and platform knowledge at JPMorgan Chase. Led end-to-end process optimisation that reduced transaction cycle time by 63% through a structured STP workflow redesign. Led UAT across two core platform migrations, coordinating sign-off across operations, technology, and compliance. Recognised with the JPMorgan Chase Excellence Award for four consecutive quarters in 2023.</div>
+        <div class="exp-pills">
+          <span class="pill">SWIFT</span>
+          <span class="pill">ACBS / LIQ</span>
+          <span class="pill">STP</span>
+          <span class="pill">UAT</span>
+          <span class="pill">Rate Fixing</span>
+          <span class="pill">AML / KYC</span>
+          <span class="pill">Reconciliation</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Things I have built.</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <span class="project-badge">UX Design · Figma · 2026</span>
+      <div class="project-title">Verdant; Robo-Advisor & Wealth Management App</div>
+      <div class="project-desc">Collaborated with a team to design and prototype Verdant, a robo-advisor wealth management application, in Figma. Led UX research, information architecture, and interface design across portfolio management, investment recommendations, and client onboarding flows. A hands-on lesson in how clear communication and shared ownership turn a concept into something real.</div>
+      <a href="https://www.figma.com/design/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=0-1" target="_blank" class="project-link">View prototype →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-badge">FinTech · Data Pipeline · 2026</span>
+      <div class="project-title">Alternate Credit Rating via Payments Visibility</div>
+      <div class="project-desc">Capstone research project at Seneca College. Designed a trust score model that surfaces non-traditional payment behaviour; rent, utilities, BNPL, peer transfers; as credit bureau signals. Built the data pipeline, scoring methodology, and a client-facing dashboard. Directly relevant to financial inclusion and payments-driven credit modernisation.</div>
+      <span class="project-link" style="color: var(--muted); cursor: default;">Seneca FinTech Capstone</span>
+    </div>
+
+    <div class="project-card">
+      <span class="project-badge">Financial Modelling · 2025</span>
+      <div class="project-title">DCF Valuation & Cost Optimisation Analysis</div>
+      <div class="project-desc">Built a three-stage DCF model with sensitivity analysis across WACC (8–12%) and terminal growth rate (1–3%) ranges. Identified working capital normalisation as the primary enterprise value driver. Produced a board-ready cost optimisation analysis identifying inefficiencies across four business units at York University.</div>
+      <span class="project-link" style="color: var(--muted); cursor: default;">York University Capstone</span>
+    </div>
+
+    <div class="project-card">
+      <span class="project-badge">Process Transformation · JPMorgan · 2023</span>
+      <div class="project-title">STP Workflow Redesign; 63% Cycle Time Reduction</div>
+      <div class="project-desc">Self-initiated a root-cause analysis of JPMorgan Chase's payment processing workflow. Designed and implemented a restructured straight-through processing (STP) protocol that reduced cycle time from 40 minutes to under 15. Documented findings, presented to senior leadership, and trained the team on the new standard. Adopted team-wide.</div>
+      <span class="project-link" style="color: var(--muted); cursor: default;">JPMorgan Chase, Mumbai</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Skills</div>
+  <h2 class="section-title">What I bring to the table.</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Payments & Banking</div>
+      <div class="skill-items">
+        <span class="skill-item">SWIFT</span>
+        <span class="skill-item">ACBS</span>
+        <span class="skill-item">LIQ</span>
+        <span class="skill-item">STP</span>
+        <span class="skill-item">ISO 20022</span>
+        <span class="skill-item">Real-Time Payments</span>
+        <span class="skill-item">AML / KYC</span>
+        <span class="skill-item">Rate Fixing</span>
+        <span class="skill-item">Loan Funding</span>
+        <span class="skill-item">FX Payments</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Consulting & Strategy</div>
+      <div class="skill-items">
+        <span class="skill-item">Payments Transformation</span>
+        <span class="skill-item">Process Re-engineering</span>
+        <span class="skill-item">UAT & Migration</span>
+        <span class="skill-item">Client Deliverables</span>
+        <span class="skill-item">Stakeholder Management</span>
+        <span class="skill-item">Requirements Gathering</span>
+        <span class="skill-item">Change Management</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Data & Analytics</div>
+      <div class="skill-items">
+        <span class="skill-item">Excel (Advanced)</span>
+        <span class="skill-item">Power Query</span>
+        <span class="skill-item">SQL</span>
+        <span class="skill-item">Tableau</span>
+        <span class="skill-item">Financial Modelling</span>
+        <span class="skill-item">DCF Valuation</span>
+        <span class="skill-item">Data Mapping (CSV/JSON)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Design & Tools</div>
+      <div class="skill-items">
+        <span class="skill-item">Figma</span>
+        <span class="skill-item">UX Design</span>
+        <span class="skill-item">PowerPoint</span>
+        <span class="skill-item">Claude AI</span>
+        <span class="skill-item">Gemini</span>
+        <span class="skill-item">CRM (Sales Navigator)</span>
+        <span class="skill-item">Apollo / ZoomInfo</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Designations (In Pursuit)</div>
+      <div class="skill-items">
+        <span class="skill-item">CFA Aspirant</span>
+        <span class="skill-item">IFIC Aspirant</span>
+        <span class="skill-item">CBV Aspirant</span>
+        <span class="skill-item">CSM Foundations</span>
+        <span class="skill-item">IB Ops Certified</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Soft Skills</div>
+      <div class="skill-items">
+        <span class="skill-item">Client Relationship Management</span>
+        <span class="skill-item">Executive Communication</span>
+        <span class="skill-item">Structured Problem Solving</span>
+        <span class="skill-item">Mentoring & Training</span>
+        <span class="skill-item">Cross-functional Collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Let's talk.</h2>
+  <p style="color: var(--muted); max-width: 480px; margin: 0 auto 1rem; font-size: 1rem; line-height: 1.7;">
+    I am actively exploring roles in payments, fintech, consulting, and financial services in Canada. 
+    If you are working on something interesting, I would love to hear about it.
+  </p>
+  <a href="mailto:bhavya.makker7@gmail.com" class="contact-email">bhavya.makker7@gmail.com</a>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/bhavya-makker-996664170" target="_blank">LinkedIn ↗</a>
+    <a href="https://www.figma.com/design/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=0-1" target="_blank">Verdant Prototype ↗</a>
+    <a href="tel:+14373249797">+1 437 324 9797</a>
+  </div>
+</section>
+
+
+<div class="section-divider"></div>
+
+<!-- HIRE ME QUIZ -->
+<section id="hire-me">
+  <div class="section-label">The big question</div>
+  <h2 class="section-title">Should you hire me?<br><span style="color:var(--amber)">Let's find out.</span></h2>
+  <p style="color:var(--muted);margin-bottom:2.5rem;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;">
+    Answer honestly. Seven questions. Thirty seconds.
+  </p>
+
+  <div class="quiz-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <!-- Q1 -->
+    <div class="quiz-slide active" id="q1">
+      <div class="quiz-progress">01 / 07</div>
+      <div class="quiz-q">Do you want someone who shows up every day ready to actually do the work?</div>
+      <div class="quiz-sub">Not just talk about it. Not just plan it. <em>Do</em> it.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q2', 2)">Yes, obviously.</button>
+        <button class="quiz-no" onclick="noNext('q1', 2)">Hmm, not sure.</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-slide" id="q2">
+      <div class="quiz-progress">02 / 07</div>
+      <div class="quiz-q">Do you want someone who takes ownership; not just credit?</div>
+      <div class="quiz-sub">I do not wait for a job description to tell me what needs fixing. I notice it, own it, and fix it.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q3', 3)">That's exactly what we need.</button>
+        <button class="quiz-no" onclick="noNext('q2', 3)">We prefer people who wait to be told.</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-slide" id="q3">
+      <div class="quiz-progress">03 / 07</div>
+      <div class="quiz-q">Do you want someone who earns trust; rather than asking for it?</div>
+      <div class="quiz-sub">I do not sell myself with words. I let the track record speak. Four consecutive Excellence Awards at JPMorgan Chase. The work earned those.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q4', 4)">Yes, that's impressive.</button>
+        <button class="quiz-no" onclick="noNext('q3', 4)">Not really our thing.</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-slide" id="q4">
+      <div class="quiz-progress">04 / 07</div>
+      <div class="quiz-q">Do you want someone who builds real things; not just talks about building them?</div>
+      <div class="quiz-sub">I designed a fintech app in Figma. I built a credit scoring model. I shipped both.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q5', 5)">Builders are exactly who we hire.</button>
+        <button class="quiz-no" onclick="noNext('q4', 5)">We prefer PowerPoints about building.</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-slide" id="q5">
+      <div class="quiz-progress">05 / 07</div>
+      <div class="quiz-q">Do you want someone who treats every commitment like a promise?</div>
+      <div class="quiz-sub">I say what I mean. I do what I say. If I tell you something will be done, it will be done. No excuses; just results.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q6', 6)">Client-first? Always.</button>
+        <button class="quiz-no" onclick="noNext('q5', 6)">Clients are overrated.</button>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-slide" id="q6">
+      <div class="quiz-progress">06 / 07</div>
+      <div class="quiz-q">Do you want someone who brings energy to the team; not just tasks to the list?</div>
+      <div class="quiz-sub">I moved countries, rebuilt my entire network from zero, and showed up every day like it was the job I already had. That energy does not switch off.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="next('q7', 7)">That sounds too good to be true.</button>
+        <button class="quiz-no" onclick="noNext('q6', 7)">Sounds like too much.</button>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-slide" id="q7">
+      <div class="quiz-progress">07 / 07</div>
+      <div class="quiz-q">Last one. Do you want someone who is loyal; genuinely, not performatively?</div>
+      <div class="quiz-sub">Loyalty is a two-way street. I give everything to the people and teams I work with. In return, I expect a real shot. That is the deal.</div>
+      <div class="quiz-btns">
+        <button class="quiz-yes" onclick="result('yes')">That is exactly who we want.</button>
+        <button class="quiz-no" onclick="result('no')">We prefer comfortable.</button>
+      </div>
+    </div>
+
+    <!-- YES RESULT -->
+    <div class="quiz-slide" id="result-yes">
+      <div class="quiz-emoji">🎯</div>
+      <div class="quiz-result-title">Then let's make it happen.</div>
+      <div class="quiz-result-text">
+        I don't ask you to trust me. I give you reasons to.<br>Let's start with a conversation.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:center;margin-bottom:1rem;">
+        <a href="mailto:bhavya.makker7@gmail.com" class="btn-primary" style="width:100%;max-width:280px;text-align:center;">
+          ✉ bhavya.makker7@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/bhavya-makker-996664170" target="_blank" class="btn-secondary" style="width:100%;max-width:280px;text-align:center;">
+          LinkedIn; Send a message ↗
+        </a>
+        <a href="tel:+14373249797" class="btn-secondary" style="width:100%;max-width:280px;text-align:center;">
+          📞 +1 437 324 9797
+        </a>
+      </div>
+      <button class="quiz-restart" onclick="restart()">Run it back</button>
+    </div>
+
+    <!-- NO RESULT -->
+    <div class="quiz-slide" id="result-no">
+      <div class="quiz-emoji">😄</div>
+      <div class="quiz-result-title">Bold choice.</div>
+      <div class="quiz-result-text">
+        Most people who say no end up emailing anyway. 
+        My inbox is open when you change your mind.
+      </div>
+      <button class="quiz-restart" onclick="restart()">Try again?</button>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const totalQ = 7;
+  const flow = ['q1','q2','q3','q4','q5','q6','q7'];
+  function showSlide(id) {
+    document.querySelectorAll('.quiz-slide').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  function updateProgress(n) {
+    document.getElementById('progress-fill').style.width = ((n / totalQ) * 100) + '%';
+  }
+  function next(id, n) {
+    updateProgress(n);
+    showSlide(id);
+  }
+  function noNext(currentId, n) {
+    // On no, still advance to next question
+    const idx = flow.indexOf(currentId);
+    updateProgress(n);
+    if (idx < flow.length - 1) {
+      showSlide(flow[idx + 1]);
+    } else {
+      result('no');
+    }
+  }
+  function result(type) {
+    updateProgress(totalQ);
+    showSlide('result-' + type);
+  }
+  function nope() {
+    // legacy; not used anymore but keep for safety
+    result('no');
+  }
+  function restart() {
+    updateProgress(0);
+    showSlide('q1');
+  }
+</script>
+
+<div class="section-divider"></div>
+
+<footer>
+  <p>© 2026 Bhavya Makker &nbsp;·&nbsp; BeeM &nbsp;·&nbsp; Built with intention.</p>
+</footer>
+
+</body>
+</html>
