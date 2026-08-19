@@ -613,7 +613,7 @@
       <span class="project-badge">UX Design · Figma · 2026</span>
       <div class="project-title">Verdant; Robo-Advisor &amp; Wealth Management App</div>
       <div class="project-desc">Designed and prototyped as part of a collaborative team in Figma. UX research, information architecture, and interface design across portfolio management, investment recommendations, and client onboarding flows. A working prototype that started as a conversation.</div>
-      <a href="https://www.figma.com/design/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=0-1" target="_blank" class="project-link">View prototype →</a>
+      <a href="https://www.figma.com/proto/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=17-289&p=f&t=SEYHgZwwzkRQTQk9-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=17%3A289" target="_blank" class="project-link">View prototype →</a>
     </div>
 
     <div class="project-card">
@@ -709,19 +709,29 @@
     </div>
 
     <div class="quiz-slide" id="result-yes" style="min-height:auto;">
-      <div class="quiz-emoji">🎯</div>
-      <div class="quiz-result-title">Then let's make it happen.</div>
-      <div class="quiz-result-text">I don't ask you to trust me. I give you reasons to.</div>
-      <div style="width:100%;max-width:340px;margin:0 auto 1rem;">
-        <input id="res-name" type="text" placeholder="Your name" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
-        <input id="res-company" type="text" placeholder="Company (optional)" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
-        <input id="res-email" type="email" placeholder="Your email" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
-        <p id="res-error" style="color:#ff6b6b;font-size:0.78rem;margin-bottom:0.5rem;display:none;">Please fill in both fields.</p>
-        <button onclick="submitQuizForm()" class="quiz-yes" style="width:100%;margin-bottom:0.5rem;">Let's talk →</button>
-        <p id="res-thanks" style="color:#f5a623;font-size:0.85rem;display:none;margin-top:0.5rem;">Got it; I'll be in touch shortly.</p>
+      <div id="form-view">
+        <div class="quiz-emoji">🎯</div>
+        <div class="quiz-result-title">Then let's make it happen.</div>
+        <div class="quiz-result-text">I don't ask you to trust me. I give you reasons to.</div>
+        <div style="width:100%;max-width:340px;margin:0 auto 1rem;">
+          <input id="res-name" type="text" placeholder="Your name" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
+          <input id="res-company" type="text" placeholder="Company (optional)" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
+          <input id="res-email" type="email" placeholder="Your email" style="width:100%;padding:0.7rem 1rem;margin-bottom:0.6rem;background:#1a1a20;border:1px solid #252530;border-radius:5px;color:#f0f0f2;font-family:var(--sans);font-size:0.9rem;outline:none;">
+          <p id="res-error" style="color:#ff6b6b;font-size:0.78rem;margin-bottom:0.5rem;display:none;">Please fill in both fields.</p>
+          <button onclick="submitQuizForm()" class="quiz-yes" style="width:100%;margin-bottom:0.5rem;">Let's talk →</button>
+        </div>
+        <button class="quiz-restart" onclick="restart()">Run it back</button>
       </div>
-      <button class="quiz-restart" onclick="restart()">Run it back</button>
-    </div>
+      <div id="thanks-view" style="display:none;flex-direction:column;align-items:center;animation:fadeUp 0.4s ease;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🌟</div>
+        <div class="quiz-result-title">Have a wonderful day.</div>
+        <div class="quiz-result-text" style="font-size:1rem;line-height:1.8;">
+          Thank you for stopping by and taking the time.<br>
+          Hope to be in touch with you very soon.
+        </div>
+        <button class="quiz-restart" style="margin-top:0.5rem;" onclick="restart()">Run it back</button>
+      </div>
+        </div>
 
     <div class="quiz-slide" id="result-no">
       <div class="quiz-emoji">😄</div>
@@ -745,7 +755,7 @@
   <a href="mailto:bhavya.makker7@gmail.com" class="contact-email">bhavya.makker7@gmail.com</a>
   <div class="contact-links">
     <a href="https://www.linkedin.com/in/bhavya-makker-996664170" target="_blank">LinkedIn ↗</a>
-    <a href="https://www.figma.com/design/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=0-1" target="_blank">Verdant Prototype ↗</a>
+    <a href="https://www.figma.com/proto/uZWlO2ykXgyb19EfqBXxEn/Robo-Advisor-and-Wealth-Management_GROUP?node-id=17-289&p=f&t=SEYHgZwwzkRQTQk9-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=17%3A289" target="_blank">Verdant Prototype ↗</a>
     <a href="tel:+14373249797">+1 437 324 9797</a>
   </div>
 </section>
@@ -784,11 +794,12 @@
   function restart() {
     Object.keys(answers).forEach(k => delete answers[k]);
     updateProgress(0); showSlide('q1');
-    document.getElementById('res-thanks').style.display = 'none';
     document.getElementById('res-error').style.display = 'none';
     document.getElementById('res-name').value = '';
     document.getElementById('res-company').value = '';
     document.getElementById('res-email').value = '';
+    document.getElementById('form-view').style.display = 'block';
+    document.getElementById('thanks-view').style.display = 'none';
   }
 
   function submitQuizForm() {
@@ -818,10 +829,10 @@
       body: params.toString()
     });
 
-    thanks.style.display = 'block';
-    document.getElementById('res-name').disabled = true;
-    document.getElementById('res-company').disabled = true;
-    document.getElementById('res-email').disabled = true;
+    // Hide form, show thank you
+    document.getElementById('form-view').style.display = 'none';
+    const tv = document.getElementById('thanks-view');
+    tv.style.display = 'flex';
   }
 </script>
 
